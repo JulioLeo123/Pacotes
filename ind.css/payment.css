@@ -1,0 +1,48 @@
+body {
+    background-color: rgb(138, 138, 138);
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.container {
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+input[type="text"], input[type="email"], input[type="date"], select, input[type="radio"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+label {
+    display: block;
+    text-align: left;
+}
+
+button {
+    padding: 10px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.clear-button {
+    background-color: #ccc;
+}
+
+
+.container {
+    width: 800px;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 35px;
+    text-align: center;
+    background-color: #bbbbbb;
+}

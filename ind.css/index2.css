@@ -1,0 +1,58 @@
+body{
+    background-color: rgb(138, 138, 138);
+    }
+ 
+    
+    header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px 0;
+        text-align: center;
+    }
+    
+    nav {
+        display: flex;
+        justify-content: center;
+    }
+    
+    nav a {
+        color: #ffffff;
+        text-decoration: none;
+        margin: 0 20px;
+    }
+ 
+    
+ 
+    
+    .grid-item {
+        background: #bbbbbb;
+        padding: 20px;
+        text-align: center;
+    }
+    
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+        background-color: #bbbbbb;
+    }
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    
+    
+
+    
+    
+    
+    
+    
