@@ -1,0 +1,17 @@
+import { currencyBRL } from '../lib/format.js';
+
+export default function HotelCard({ name, city, nights, pricePerNight, image }) {
+  return (
+    <article className="card">
+      {image ? <img src={image} alt={name} loading="lazy" /> : <div style={{height:160, background:'#0f172a'}} />}
+      <div className="body">
+        <h3 className="title">{name}</h3>
+        <p className="muted">{city} • {nights} noites</p>
+        <div className="row">
+          <span className="price">{currencyBRL(pricePerNight)}/noite</span>
+          <button className="btn" onClick={() => alert('Simulação: reservar hotel')}>Reservar</button>
+        </div>
+      </div>
+    </article>
+  );
+}
