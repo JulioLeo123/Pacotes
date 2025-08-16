@@ -7,9 +7,11 @@ export default function PackageCard({ id, title, location, nights, price, image 
 
   return (
     <article className="card">
-      {image ? <img src={image} alt={title} loading="lazy" /> : <div style={{height:160, background:'#0f172a'}} />}
+      <Link to={`/pacotes/${id}`} aria-label={`Ver detalhes de ${title}`}>
+        {image ? <img src={image} alt={title} loading="lazy" /> : <div style={{height:160, background:'#0f172a'}} />}
+      </Link>
       <div className="body">
-        <h3 className="title">{title}</h3>
+        <h3 className="title"><Link to={`/pacotes/${id}`}>{title}</Link></h3>
         {subtitle && <p className="muted">{subtitle}</p>}
         <div className="row">
           <span className="price">{hasPrice ? currencyBRL(price) : 'Preço sob consulta'}</span>
