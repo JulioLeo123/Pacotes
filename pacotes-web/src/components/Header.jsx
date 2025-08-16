@@ -27,6 +27,7 @@ export default function Header() {
             </>
           ) : (
             <div className="user">
+              <NavLink to="/minha-conta">Minha conta</NavLink>
               <span className="muted">Olá, {currentUser.name.split(' ')[0]}</span>
               <button className="btn" onClick={() => { logout(); navigate('/'); }}>Sair</button>
             </div>

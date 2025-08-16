@@ -44,7 +44,23 @@ export function AuthProvider({ children }) {
 
   const logout = () => setCurrentUser(null);
 
-  const value = useMemo(() => ({ users, currentUser, register, login, logout }), [users, currentUser]);
+  const updateProfile = async ({ name }) => {
+    if (!currentUser) throw new Error('Não autenticado');
+    if (!name || name.trim().length < 3) throw new Error('Nome inválido');
+    setUsers((prev) => prev.map((u) => (u.id === currentUser.id ? { ...u, name } : u)));
+    setCurrentUser((prev) => ({ ...prev, name }));
+  };
+
+  const changePassword = async ({ currentPassword, newPassword }) => {
+    if (!currentUser) throw new Error('Não autenticado');
+    const user = users.find((u) => u.id === currentUser.id);
+    if (!user) throw new Error('Usuário não encontrado');
+    if (!currentPassword || user.password !== currentPassword) throw new Error('Senha atual incorreta');
+    if (!newPassword || newPassword.length < 6) throw new Error('Nova senha muito curta');
+    setUsers((prev) => prev.map((u) => (u.id === user.id ? { ...u, password: newPassword } : u)));
+  };
+
+  const value = useMemo(() => ({ users, currentUser, register, login, logout, updateProfile, changePassword }), [users, currentUser]);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 

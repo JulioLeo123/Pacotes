@@ -16,6 +16,7 @@ import PackageDetail from './pages/PackageDetail.jsx';
 import FlightDetail from './pages/FlightDetail.jsx';
 import HotelDetail from './pages/HotelDetail.jsx';
 import CruiseDetail from './pages/CruiseDetail.jsx';
+import MinhaConta from './pages/MinhaConta.jsx';
 
 export default function App() {
   return (
@@ -36,6 +37,7 @@ export default function App() {
           <Route path="/destinos" element={<Destinos />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cadastro" element={<Cadastro />} />
+          <Route path="/minha-conta" element={<MinhaConta />} />
           <Route path="/pagamento" element={<Payment />} />
           <Route path="/finalizacao" element={<Success />} />
           <Route path="*" element={<NotFound />} />
