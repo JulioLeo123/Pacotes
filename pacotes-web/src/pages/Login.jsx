@@ -2,7 +2,8 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Helmet } from 'react-helmet-async';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const schema = z.object({
   email: z.string().email('Email inválido'),
@@ -11,13 +12,20 @@ const schema = z.object({
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { login } = useAuth();
+  const from = new URLSearchParams(location.search).get('from') || '/';
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = async () => {
-    await new Promise((r) => setTimeout(r, 600));
-    navigate('/');
+  const onSubmit = async (data) => {
+    try {
+      await login(data);
+      navigate(from, { replace: true });
+    } catch (e) {
+      alert(e.message || 'Falha no login');
+    }
   };
 
   return (
@@ -39,7 +47,7 @@ export default function Login() {
           <button type="submit" className="cta" disabled={isSubmitting}>
             {isSubmitting ? 'Entrando...' : 'Entrar'}
           </button>
-          <Link to="/cadastro" className="btn">Criar conta</Link>
+          <Link to={`/cadastro?from=${encodeURIComponent(from)}`} className="btn">Criar conta</Link>
         </div>
       </form>
     </section>

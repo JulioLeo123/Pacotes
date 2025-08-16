@@ -2,7 +2,8 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const schema = z.object({
   name: z.string().min(3, 'Informe seu nome'),
@@ -12,13 +13,20 @@ const schema = z.object({
 
 export default function Cadastro() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { register: registerUser } = useAuth();
+  const from = new URLSearchParams(location.search).get('from') || '/';
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = async () => {
-    await new Promise((r) => setTimeout(r, 700));
-    navigate('/login');
+  const onSubmit = async (data) => {
+    try {
+      await registerUser(data);
+      navigate(from, { replace: true });
+    } catch (e) {
+      alert(e.message || 'Falha ao cadastrar');
+    }
   };
 
   return (

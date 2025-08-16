@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { packages } from '../data/packages.js';
 import { currencyBRL, maskCardNumber, maskCVC, maskExp } from '../lib/format.js';
+import { useAuth } from '../context/AuthContext';
 
 const schema = z.object({
   cardName: z.string().min(3, 'Nome obrigatório'),
@@ -16,6 +17,8 @@ const schema = z.object({
 
 export default function Payment() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { currentUser } = useAuth();
   const [params] = useSearchParams();
   const id = params.get('id');
 
@@ -25,8 +28,11 @@ export default function Payment() {
   const [cvc, setCvc] = useState('');
 
   useEffect(() => {
-    // fallback: se não houver pacote, segue genérico
-  }, []);
+    if (!currentUser) {
+      const from = encodeURIComponent(location.pathname + location.search);
+      navigate(`/login?from=${from}`, { replace: true });
+    }
+  }, [currentUser, location.pathname, location.search, navigate]);
 
   const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm({
     resolver: zodResolver(schema),

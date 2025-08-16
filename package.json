@@ -10,6 +10,9 @@
     "fast-glob": "^3.3.3"
   },
   "scripts": {
-    "extract": "node pacotes-web/scripts/extract-packages.mjs"
+  "extract": "node pacotes-web/scripts/extract-packages.mjs",
+  "dev": "npm --prefix pacotes-web run dev",
+  "build": "npm --prefix pacotes-web run build",
+  "preview": "npm --prefix pacotes-web run preview"
   }
 }

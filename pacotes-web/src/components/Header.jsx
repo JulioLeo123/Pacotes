@@ -1,6 +1,10 @@
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Header() {
+  const { currentUser, logout } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
   return (
     <header className="header">
       <div className="header-inner">
@@ -16,8 +20,17 @@ export default function Header() {
           <NavLink to="/cruzeiros">Cruzeiros</NavLink>
           <NavLink to="/clube">Clube</NavLink>
           <NavLink to="/destinos">Destinos</NavLink>
-          <NavLink to="/login">Entrar</NavLink>
-          <Link to="/cadastro" className="cta">Criar conta</Link>
+          {!currentUser ? (
+            <>
+              <NavLink to={`/login?from=${encodeURIComponent(location.pathname + location.search)}`}>Entrar</NavLink>
+              <Link to={`/cadastro?from=${encodeURIComponent(location.pathname + location.search)}`} className="cta">Criar conta</Link>
+            </>
+          ) : (
+            <div className="user">
+              <span className="muted">Olá, {currentUser.name.split(' ')[0]}</span>
+              <button className="btn" onClick={() => { logout(); navigate('/'); }}>Sair</button>
+            </div>
+          )}
         </nav>
       </div>
     </header>
