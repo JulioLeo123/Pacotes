@@ -9,7 +9,7 @@ export default function Cruzeiros() {
       <h2 className="section-title">Cruzeiros</h2>
       <div className="grid">
         {cruises.map((c, i) => (
-          <CruiseCard key={i} {...c} />
+          <CruiseCard key={i} idx={i} {...c} />
         ))}
       </div>
     </section>

@@ -1,6 +1,7 @@
 import { currencyBRL } from '../lib/format.js';
+import { Link } from 'react-router-dom';
 
-export default function CruiseCard({ route, ship, nights, price, image }) {
+export default function CruiseCard({ idx, route, ship, nights, price, image }) {
   return (
     <article className="card">
       {image ? <img src={image} alt={route} loading="lazy" /> : <div style={{height:160, background:'#0f172a'}} />}
@@ -9,7 +10,7 @@ export default function CruiseCard({ route, ship, nights, price, image }) {
         <p className="muted">Navio {ship} • {nights} noites</p>
         <div className="row">
           <span className="price">{currencyBRL(price)}</span>
-          <button className="btn" onClick={() => alert('Simulação: escolher cruzeiro')}>Escolher</button>
+          <Link className="btn" to={`/cruzeiros/${idx}`}>Escolher</Link>
         </div>
       </div>
     </article>

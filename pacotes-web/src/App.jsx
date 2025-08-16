@@ -13,6 +13,9 @@ import Cruzeiros from './pages/Cruzeiros.jsx';
 import Clube from './pages/Clube.jsx';
 import Destinos from './pages/Destinos.jsx';
 import PackageDetail from './pages/PackageDetail.jsx';
+import FlightDetail from './pages/FlightDetail.jsx';
+import HotelDetail from './pages/HotelDetail.jsx';
+import CruiseDetail from './pages/CruiseDetail.jsx';
 
 export default function App() {
   return (
@@ -23,6 +26,9 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/pacotes" element={<Pacotes />} />
           <Route path="/pacotes/:id" element={<PackageDetail />} />
+          <Route path="/passagens/:idx" element={<FlightDetail />} />
+          <Route path="/hoteis/:idx" element={<HotelDetail />} />
+          <Route path="/cruzeiros/:idx" element={<CruiseDetail />} />
           <Route path="/passagens" element={<Passagens />} />
           <Route path="/hoteis" element={<Hoteis />} />
           <Route path="/cruzeiros" element={<Cruzeiros />} />

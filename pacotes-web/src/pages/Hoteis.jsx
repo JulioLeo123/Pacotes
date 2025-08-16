@@ -9,7 +9,7 @@ export default function Hoteis() {
       <h2 className="section-title">Hotéis</h2>
       <div className="grid">
         {hotels.map((h, i) => (
-          <HotelCard key={i} {...h} />
+          <HotelCard key={i} idx={i} {...h} />
         ))}
       </div>
     </section>

@@ -9,7 +9,7 @@ export default function Passagens() {
       <h2 className="section-title">Passagens aéreas</h2>
       <div className="grid">
         {flights.map((f, i) => (
-          <FlightCard key={i} {...f} />
+          <FlightCard key={i} idx={i} {...f} />
         ))}
       </div>
     </section>
