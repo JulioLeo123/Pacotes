@@ -18,7 +18,7 @@ const schema = z.object({
 export default function Payment() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { currentUser } = useAuth();
+  const { currentUser, addOrder } = useAuth();
   const [params] = useSearchParams();
   const id = params.get('id');
 
@@ -41,6 +41,13 @@ export default function Payment() {
 
   const onSubmit = async () => {
     await new Promise((r) => setTimeout(r, 900));
+    if (selected) {
+      try {
+        await addOrder({ title: selected.title, amount: selected.price, itemId: selected.id, kind: 'package' });
+      } catch {
+        // se falhar, não bloqueia
+      }
+    }
     navigate('/finalizacao', { state: { selected } });
   };
 

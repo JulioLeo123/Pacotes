@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 
 const KEY_USERS = 'pv_users';
 const KEY_SESSION = 'pv_session';
+const KEY_ORDERS = 'pv_orders';
 
 function loadUsers() {
   try { return JSON.parse(localStorage.getItem(KEY_USERS)) || []; } catch { return []; }
@@ -17,14 +18,23 @@ function saveSession(user) {
   else localStorage.removeItem(KEY_SESSION);
 }
 
+function loadOrders() {
+  try { return JSON.parse(localStorage.getItem(KEY_ORDERS)) || []; } catch { return []; }
+}
+function saveOrders(orders) {
+  localStorage.setItem(KEY_ORDERS, JSON.stringify(orders));
+}
+
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [users, setUsers] = useState(() => loadUsers());
   const [currentUser, setCurrentUser] = useState(() => loadSession());
+  const [orders, setOrders] = useState(() => loadOrders());
 
   useEffect(() => { saveUsers(users); }, [users]);
   useEffect(() => { saveSession(currentUser); }, [currentUser]);
+  useEffect(() => { saveOrders(orders); }, [orders]);
 
   const register = async ({ name, email, password }) => {
     const exists = users.some((u) => u.email.toLowerCase() === email.toLowerCase());
@@ -60,7 +70,25 @@ export function AuthProvider({ children }) {
     setUsers((prev) => prev.map((u) => (u.id === user.id ? { ...u, password: newPassword } : u)));
   };
 
-  const value = useMemo(() => ({ users, currentUser, register, login, logout, updateProfile, changePassword }), [users, currentUser]);
+  const addOrder = async ({ title, amount, itemId, kind = 'package', meta = {} }) => {
+    if (!currentUser) throw new Error('Não autenticado');
+    const order = {
+      id: crypto.randomUUID(),
+      userId: currentUser.id,
+      title,
+      amount,
+      itemId: itemId || null,
+      kind,
+      meta,
+      createdAt: new Date().toISOString(),
+    };
+    setOrders((prev) => [order, ...prev]);
+    return order;
+  };
+
+  const userOrders = useMemo(() => orders.filter((o) => o.userId === currentUser?.id), [orders, currentUser]);
+
+  const value = useMemo(() => ({ users, currentUser, register, login, logout, updateProfile, changePassword, orders, userOrders, addOrder }), [users, currentUser, orders, userOrders]);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 

@@ -3,11 +3,12 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAuth } from '../context/AuthContext'
+import { currencyBRL } from '../lib/format'
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 export default function MinhaConta() {
-  const { currentUser, updateProfile, changePassword, logout } = useAuth()
+  const { currentUser, updateProfile, changePassword, logout, userOrders } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -93,6 +94,23 @@ export default function MinhaConta() {
             </button>
           </div>
         </form>
+      </div>
+
+      <div className="card" style={{ marginTop: '1rem' }}>
+        <h3>Meus pedidos</h3>
+        {userOrders?.length ? (
+          <ul>
+            {userOrders.map((o) => (
+              <li key={o.id} className="muted">
+                <strong>{o.title}</strong> — {currencyBRL(o.amount)}
+                <br />
+                <small>{new Date(o.createdAt).toLocaleString()}</small>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="muted">Você ainda não tem pedidos.</p>
+        )}
       </div>
 
       <div style={{ marginTop: '1rem' }}>
