@@ -42,6 +42,24 @@ export default function PackageDetail() {
 
   const { lines, inclusions, policies } = buildDetails(pkg);
 
+  // Dados simulados para voo/hotel/previsão/comentários
+  const flight = {
+    from: 'São Paulo (GRU)', to: (pkg.location || 'Destino'), airline: 'LATAM', when: 'próxima janela',
+    price: Math.max(790, Math.round((pkg.price || 2000) * 0.35))
+  };
+  const hotel = {
+    name: 'Hotel Selecionado', city: pkg.location || '—', nights: pkg.nights || 3,
+    pricePerNight: Math.max(320, Math.round((pkg.price || 2000) / ((pkg.nights || 3) * 4)))
+  };
+  const weather = {
+    summary: 'Parcialmente nublado', tempMin: 18, tempMax: 27, rainChance: 20
+  };
+  const reviews = [
+    { user: 'Ana', rating: 5, text: 'Experiência incrível! Tudo muito organizado.' },
+    { user: 'Bruno', rating: 4, text: 'Valeu muito o custo-benefício. Recomendo.' },
+    { user: 'Carol', rating: 4, text: 'Hotel excelente e voo pontual.' },
+  ];
+
   return (
     <section>
       <Helmet><title>{pkg.title} • Detalhes do pacote</title></Helmet>
@@ -61,7 +79,42 @@ export default function PackageDetail() {
             </ul>
           )}
 
-          <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))' }}>
+          {/* Blocos detalhados */}
+          <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))' }}>
+            <div className="card" style={{ padding: '.9rem' }}>
+              <h3 className="title">Voo</h3>
+              <p className="muted">{flight.from} → {flight.to}</p>
+              <p className="muted">{flight.airline} • {flight.when}</p>
+              <p><strong>{currencyBRL(flight.price)}</strong></p>
+            </div>
+
+            <div className="card" style={{ padding: '.9rem' }}>
+              <h3 className="title">Hotel</h3>
+              <p className="muted">{hotel.name}</p>
+              <p className="muted">{hotel.city} • {hotel.nights} noites</p>
+              <p><strong>{currencyBRL(hotel.pricePerNight)}/noite</strong></p>
+            </div>
+
+            <div className="card" style={{ padding: '.9rem' }}>
+              <h3 className="title">Previsão do tempo</h3>
+              <p className="muted">{weather.summary}</p>
+              <p className="muted">{weather.tempMin}°C ~ {weather.tempMax}°C • {weather.rainChance}% chuva</p>
+            </div>
+          </div>
+
+          <div className="card" style={{ padding: '.9rem', marginTop: '.9rem' }}>
+            <h3 className="title">Avaliações</h3>
+            <ul style={{ margin: '.4rem 0 0 1rem' }}>
+              {reviews.map((r, i) => (
+                <li key={i}>
+                  <strong>{r.user}</strong> — {'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}
+                  <div className="muted">{r.text}</div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', marginTop: '.9rem' }}>
             <div className="card" style={{ padding: '.9rem' }}>
               <h3 className="title">O que inclui</h3>
               <ul style={{ margin: '.4rem 0 0 1rem' }}>

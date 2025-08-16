@@ -15,7 +15,7 @@ export default function PackageCard({ id, title, location, nights, price, image 
         {subtitle && <p className="muted">{subtitle}</p>}
         <div className="row">
           <span className="price">{hasPrice ? currencyBRL(price) : 'Preço sob consulta'}</span>
-          <Link className="btn" to={`/pagamento?id=${id}`} aria-label={`Comprar ${title}`}>
+          <Link className="btn" to={`/pacotes/${id}`} aria-label={`Comprar ${title}`}>
             Comprar
           </Link>
         </div>
