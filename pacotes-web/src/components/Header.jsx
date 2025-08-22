@@ -1,10 +1,13 @@
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
+import ProfileDropdown from './ProfileDropdown';
 
 export default function Header() {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const { theme, toggleTheme } = useTheme();
   return (
     <header className="header">
       <div className="header-inner">
@@ -20,17 +23,22 @@ export default function Header() {
           <NavLink to="/cruzeiros">Cruzeiros</NavLink>
           <NavLink to="/clube">Clube</NavLink>
           <NavLink to="/destinos">Destinos</NavLink>
+          <button
+            className="btn btn-secondary"
+            style={{ marginLeft: 12 }}
+            onClick={toggleTheme}
+            aria-label={theme === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro'}
+            title={theme === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro'}
+          >
+            {theme === 'dark' ? '🌙 Escuro' : '☀️ Claro'}
+          </button>
           {!currentUser ? (
             <>
               <NavLink to={`/login?from=${encodeURIComponent(location.pathname + location.search)}`}>Entrar</NavLink>
               <Link to={`/cadastro?from=${encodeURIComponent(location.pathname + location.search)}`} className="cta">Criar conta</Link>
             </>
           ) : (
-            <div className="user">
-              <NavLink to="/minha-conta">Minha conta</NavLink>
-              <span className="muted">Olá, {currentUser.name.split(' ')[0]}</span>
-              <button className="btn" onClick={() => { logout(); navigate('/'); }}>Sair</button>
-            </div>
+            <ProfileDropdown currentUser={currentUser} logout={logout} navigate={navigate} />
           )}
         </nav>
       </div>
